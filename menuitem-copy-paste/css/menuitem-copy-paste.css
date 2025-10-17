@@ -1,14 +1,14 @@
 .menu-item-bar .menu-item-handle:has(.menuitem-copy-paste-buttons) {
+	max-width: min(628px, calc(100% - 116px));
 	overflow: visible;
 }
 
 .menuitem-copy-paste-buttons {
-	padding-inline: 0.25pc;
 	position: absolute;
 	z-index: 10;
 	top: 0px;
 	bottom: 0px;
-	right: -3.6pc;
+	right: -106px;
 	margin: auto;
 	display: flex;
 	place-content: center;
@@ -25,12 +25,19 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0 4px;
+	padding-inline: 0.25pc;
   color: #72777c;
+  transition: color 0.2s ease;
 }
 
-.menuitem-copy-paste-buttons button:hover {
+/* .button */
+.menuitem-copy-paste-buttons button:hover,
+.menuitem-copy-paste-buttons .button-clone:hover {
   color: #0073aa;
+}
+
+.menuitem-copy-paste-buttons .button-delete:hover {
+  color: #d63638;
 }
 
 .menuitem-copy-paste-buttons .dashicons {
@@ -39,7 +46,18 @@
   width: 16px;
 }
 
-.menuitem-copy-paste-buttons .button-paste.disabled {
+/* .disabled */
+.menuitem-copy-paste-buttons .button-paste.is-disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.menuitem-copy-paste-buttons .button-paste.is-disabled:hover {
+  color: #72777c;
+}
+
+/* .copied */
+.copied-menu-item .menu-item-bar .menu-item-handle {
+	border-color: #2271b1;
+	background: hsl(207, 68%, 93%);
 }
