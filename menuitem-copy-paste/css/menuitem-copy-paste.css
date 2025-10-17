@@ -1,0 +1,45 @@
+.menu-item-bar .menu-item-handle:has(.menuitem-copy-paste-buttons) {
+	overflow: visible;
+}
+
+.menuitem-copy-paste-buttons {
+	padding-inline: 0.25pc;
+	position: absolute;
+	z-index: 10;
+	top: 0px;
+	bottom: 0px;
+	right: -3.6pc;
+	margin: auto;
+	display: flex;
+	place-content: center;
+	align-content: center;
+	width: auto;
+  height: calc(100% + 2px);
+	padding-inline: 0.25pc;
+	border-top: 1px solid #dcdcde;
+	border-right: 1px solid #dcdcde;
+	border-bottom: 1px solid #dcdcde;
+}
+
+.menuitem-copy-paste-buttons button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 4px;
+  color: #72777c;
+}
+
+.menuitem-copy-paste-buttons button:hover {
+  color: #0073aa;
+}
+
+.menuitem-copy-paste-buttons .dashicons {
+  font-size: 16px;
+  height: 16px;
+  width: 16px;
+}
+
+.menuitem-copy-paste-buttons .button-paste.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
