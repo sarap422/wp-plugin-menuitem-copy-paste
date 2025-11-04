@@ -10,16 +10,19 @@ jQuery(document).ready(function ($) {
 
         const buttons = $(`
           <span class="menuitem-copy-paste-buttons">
-            <button type="button" class="button-clone" title="Clone (直下に複製)" data-id="${menuItemId}">
+            <button type="button" class="button-new" title="New (下に新規カスタムリンク)" data-id="${menuItemId}">
+              <span class="dashicons dashicons-plus-alt"></span>
+            </button>
+            <button type="button" class="button-clone" title="Clone (下に複製)" data-id="${menuItemId}">
               <span class="dashicons dashicons-admin-page"></span>
             </button>
-            <button type="button" class="button-copy" title="Copy" data-id="${menuItemId}">
+            <button type="button" class="button-copy" title="Copy (項目をコピー)" data-id="${menuItemId}">
               <span class="dashicons dashicons-admin-links"></span>
             </button>
-            <button type="button" class="button-paste is-disabled" title="Paste" data-id="${menuItemId}">
+            <button type="button" class="button-paste is-disabled" title="Paste (下にペースト)" data-id="${menuItemId}">
               <span class="dashicons dashicons-clipboard"></span>
             </button>
-            <button type="button" class="button-delete" title="Delete" data-id="${menuItemId}">
+            <button type="button" class="button-delete" title="Delete (項目を削除)" data-id="${menuItemId}">
               <span class="dashicons dashicons-trash"></span>
             </button>
           </span>
@@ -30,6 +33,32 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  // Newボタンのクリックハンドラ
+  $(document).on('click', '.button-new', function (e) {
+    e.preventDefault();
+    const menuItemId = $(this).data('id');
+    const menuId = $('#menu').val();
+
+    $.ajax({
+      url: menuCopyPaste.ajaxurl,
+      type: 'POST',
+      data: {
+        action: 'menucoam_add_new_custom_link',
+        nonce: menuCopyPaste.nonce,
+        menu_id: menuId,
+        after_item_id: menuItemId
+      },
+      success: function (response) {
+        if (response.success) {
+          // ページをリロードして新しい項目を表示
+          window.location.reload();
+        } else {
+          alert('新規カスタムリンクの作成に失敗しました: ' + response.data);
+        }
+      }
+    });
+  });
+
   // Cloneボタンのクリックハンドラ
   $(document).on('click', '.button-clone', function (e) {
     e.preventDefault();
@@ -39,7 +68,7 @@ jQuery(document).ready(function ($) {
       url: menuCopyPaste.ajaxurl,
       type: 'POST',
       data: {
-        action: 'clone_menu_item',
+        action: 'menucoam_clone_menu_item',
         nonce: menuCopyPaste.nonce,
         menu_item_id: menuItemId
       },
@@ -66,7 +95,7 @@ jQuery(document).ready(function ($) {
       url: menuCopyPaste.ajaxurl,
       type: 'POST',
       data: {
-        action: 'copy_menu_item',
+        action: 'menucoam_copy_menu_item',
         nonce: menuCopyPaste.nonce,
         menu_item_id: menuItemId
       },
@@ -101,7 +130,7 @@ jQuery(document).ready(function ($) {
       url: menuCopyPaste.ajaxurl,
       type: 'POST',
       data: {
-        action: 'paste_menu_item',
+        action: 'menucoam_paste_menu_item',
         nonce: menuCopyPaste.nonce,
         menu_id: menuId,
         after_item_id: afterItemId,
@@ -132,7 +161,7 @@ jQuery(document).ready(function ($) {
       url: menuCopyPaste.ajaxurl,
       type: 'POST',
       data: {
-        action: 'delete_menu_item',
+        action: 'menucoam_delete_menu_item',
         nonce: menuCopyPaste.nonce,
         menu_item_id: menuItemId
       },

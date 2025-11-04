@@ -2,9 +2,17 @@
 
 /**
  * Plugin Name: MenuItem Copy & Paste
- * Description: Enables copying and pasting items in the WordPress menu editing screen
- * Version: 0.1.4
- * Author: Sarap422
+ * Description: WordPressのメニュー編集画面で項目のコピー、ペースト、複製、削除を簡単に行えます
+ * Version: 1.0.6
+ * Author: sarap422
+ * Text Domain: menuitem-copy-paste
+ * Requires PHP: 7.4
+ * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ *
+ * @package menuitem-copy-paste
+ * @author sarap422
+ * @license GPL-2.0+
  */
 
 //Direct access prohibited
@@ -15,10 +23,11 @@ if (!defined('ABSPATH')) {
 class Menuitem_Copy_Paste {
   public function __construct() {
     add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_scripts'));
-    add_action('wp_ajax_copy_menu_item', array($this, 'copy_menu_item'));
-    add_action('wp_ajax_paste_menu_item', array($this, 'paste_menu_item'));
-    add_action('wp_ajax_clone_menu_item', array($this, 'clone_menu_item'));
-    add_action('wp_ajax_delete_menu_item', array($this, 'delete_menu_item'));
+    add_action('wp_ajax_menucoam_copy_menu_item', array($this, 'copy_menu_item'));
+    add_action('wp_ajax_menucoam_paste_menu_item', array($this, 'paste_menu_item'));
+    add_action('wp_ajax_menucoam_clone_menu_item', array($this, 'clone_menu_item'));
+    add_action('wp_ajax_menucoam_delete_menu_item', array($this, 'delete_menu_item'));
+    add_action('wp_ajax_menucoam_add_new_custom_link', array($this, 'add_new_custom_link'));
   }
 
   public function enqueue_admin_scripts($hook) {
@@ -31,7 +40,7 @@ class Menuitem_Copy_Paste {
       'menuitem-copy-paste',
       plugins_url('js/menuitem-copy-paste.js', __FILE__),
       array('jquery'),
-      '0.1.4',
+      '1.0.4',
       true
     );
 
@@ -44,7 +53,7 @@ class Menuitem_Copy_Paste {
       'menuitem-copy-paste',
       plugins_url('css/menuitem-copy-paste.css', __FILE__),
       array(),
-      '0.1.4'
+      '1.0.4'
     );
   }
 
@@ -53,6 +62,10 @@ class Menuitem_Copy_Paste {
 
     if (!current_user_can('edit_theme_options')) {
       wp_send_json_error('権限がありません');
+    }
+
+    if (!isset($_POST['menu_item_id'])) {
+      wp_send_json_error('メニュー項目IDが指定されていません');
     }
 
     $menu_item_id = intval($_POST['menu_item_id']);
@@ -111,12 +124,27 @@ class Menuitem_Copy_Paste {
       wp_send_json_error('権限がありません');
     }
 
+    if (!isset($_POST['menu_id']) || !isset($_POST['item_data'])) {
+      wp_send_json_error('必要なパラメータが不足しています');
+    }
+
     $menu_id = intval($_POST['menu_id']);
     $after_item_id = isset($_POST['after_item_id']) ? intval($_POST['after_item_id']) : 0;
-    $item_data = json_decode(stripslashes($_POST['item_data']), true);
-
-    if (!$item_data) {
+    
+    // JSON文字列のバリデーション
+    $item_data_json = wp_unslash($_POST['item_data']);
+    
+    // 文字列型チェックと最大長チェック（10KB以内）
+    if (!is_string($item_data_json) || strlen($item_data_json) > 10240) {
       wp_send_json_error('データが無効です');
+    }
+    
+    // JSONデコード
+    $item_data = json_decode($item_data_json, true);
+    
+    // デコード成功チェック
+    if (json_last_error() !== JSON_ERROR_NONE || !is_array($item_data)) {
+      wp_send_json_error('データのデコードに失敗しました');
     }
 
     // メニュー項目の基本設定
@@ -218,6 +246,10 @@ class Menuitem_Copy_Paste {
 
     if (!current_user_can('edit_theme_options')) {
       wp_send_json_error('権限がありません');
+    }
+
+    if (!isset($_POST['menu_item_id'])) {
+      wp_send_json_error('メニュー項目IDが指定されていません');
     }
 
     $menu_item_id = intval($_POST['menu_item_id']);
@@ -334,6 +366,10 @@ class Menuitem_Copy_Paste {
       wp_send_json_error('権限がありません');
     }
 
+    if (!isset($_POST['menu_item_id'])) {
+      wp_send_json_error('メニュー項目IDが指定されていません');
+    }
+
     $menu_item_id = intval($_POST['menu_item_id']);
     $menu_item = get_post($menu_item_id);
 
@@ -350,6 +386,72 @@ class Menuitem_Copy_Paste {
 
     wp_send_json_success(array(
       'deleted_id' => $menu_item_id
+    ));
+  }
+
+  public function add_new_custom_link() {
+    check_ajax_referer('menuitem-copy-paste-nonce', 'nonce');
+
+    if (!current_user_can('edit_theme_options')) {
+      wp_send_json_error('権限がありません');
+    }
+
+    if (!isset($_POST['menu_id'])) {
+      wp_send_json_error('メニューIDが指定されていません');
+    }
+
+    $menu_id = intval($_POST['menu_id']);
+    $after_item_id = isset($_POST['after_item_id']) ? intval($_POST['after_item_id']) : 0;
+
+    // 新しいカスタムリンクの基本設定
+    $args = array(
+      'menu-item-title' => '新規カスタムリンク',
+      'menu-item-url' => '/',
+      'menu-item-type' => 'custom',
+      'menu-item-status' => 'publish',
+    );
+
+    // 挿入位置を計算
+    if ($after_item_id > 0) {
+      // after_item_idのメニュー項目情報を取得
+      $after_item = get_post($after_item_id);
+      
+      if ($after_item && $after_item->post_type === 'nav_menu_item') {
+        // メニュー内のすべてのアイテムを取得
+        $menu_items = wp_get_nav_menu_items($menu_id);
+        
+        // after_item_idと同じ親を持つように設定（同じ階層に配置）
+        $after_parent_id = get_post_meta($after_item_id, '_menu_item_menu_item_parent', true);
+        if ($after_parent_id) {
+          $args['menu-item-parent-id'] = $after_parent_id;
+        }
+        
+        // after_item_idのすべての子孫を再帰的に取得
+        $descendants = $this->get_all_descendants($menu_items, $after_item_id);
+        
+        // 挿入位置を決定
+        if (!empty($descendants)) {
+          // 子孫要素がある場合：最後の子孫の後に挿入
+          $last_descendant = end($descendants);
+          $position = $last_descendant->menu_order;
+        } else {
+          // 子孫要素がない場合：after_item_idの直後に挿入
+          $position = $after_item->menu_order;
+        }
+        $args['menu-item-position'] = $position;
+      }
+    }
+
+    // 新しいメニュー項目を作成
+    $item_id = wp_update_nav_menu_item($menu_id, 0, $args);
+
+    if (is_wp_error($item_id)) {
+      wp_send_json_error($item_id->get_error_message());
+    }
+
+    wp_send_json_success(array(
+      'item_id' => $item_id,
+      'menu_id' => $menu_id
     ));
   }
 }
