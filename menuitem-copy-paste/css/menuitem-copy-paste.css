@@ -1,5 +1,5 @@
 .menu-item-bar .menu-item-handle:has(.menuitem-copy-paste-buttons) {
-	max-width: min(584px, calc(100% - 130px));
+	max-width: min(584px, calc(100% - 160px));
 	overflow: visible;
 }
 
@@ -14,7 +14,7 @@
 	z-index: 10;
 	top: 0px;
 	bottom: 0px;
-	right: -130px;
+	left: 100%;
 	margin: auto;
 	display: flex;
 	place-content: center;
@@ -59,3 +59,19 @@
 	opacity: 0.5;
 }
 
+/* === Collapse feature (Task 0520.1) === */
+
+/* Hide items whose ancestor is collapsed */
+.menu-item.menuitem-hidden-by-collapse {
+	display: none !important;
+}
+
+/* Visual indicator for a collapsed parent */
+.menu-item.menuitem-collapsed > .menu-item-bar .menu-item-handle {
+	border-left: 3px solid #2271b1;
+}
+
+/* Toggle-collapse button: only visible when item has children (controlled via inline style by JS) */
+.menuitem-copy-paste-buttons .button-toggle-collapse:hover {
+	color: #2271b1;
+}

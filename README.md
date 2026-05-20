@@ -1,4 +1,4 @@
-# MenuItem Copy & Paste
+# MenuItem Copy & Paste v1.0.7
 
 ![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/menuitem-copy-paste?label=WordPress%20Plugin)
 ![WordPress Plugin: Tested WP Version](https://img.shields.io/wordpress/plugin/tested/menuitem-copy-paste)
@@ -9,7 +9,7 @@
 ![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sarap422/wp-plugin-menuitem-copy-paste)
 
-Easily copy, paste, clone, and delete menu items in the WordPress menu editor.
+Easily copy, paste, clone, delete, and collapse menu items in the WordPress menu editor.
 
 **[📥 Download from WordPress.org](https://wordpress.org/plugins/menuitem-copy-paste/)** | **[📖 Documentation](https://github.com/sarap422/wp-plugin-menuitem-copy-paste/wiki)** | **[🐛 Report Issues](https://github.com/sarap422/wp-plugin-menuitem-copy-paste/issues)**
 
@@ -17,13 +17,14 @@ Easily copy, paste, clone, and delete menu items in the WordPress menu editor.
 
 ## ✨ Features
 
-MenuItem Copy & Paste enhances the WordPress menu editing interface by adding five quick action buttons to each menu item, making menu management significantly more efficient.
+MenuItem Copy & Paste enhances the WordPress menu editing interface by adding six quick action buttons to each menu item, making menu management significantly more efficient.
 
 - **➕ New**: Instantly create a new custom link below the selected menu item
 - **📒 Clone**: Duplicate a menu item immediately below itself
 - **🔗 Copy**: Copy menu item data to clipboard with visual highlight
 - **📋 Paste**: Paste copied items at the desired position
 - **🗑️ Delete**: Remove menu items without opening accordions
+- **▲▼ Collapse**: Fold/unfold child menu items under a parent (state saved in localStorage)
 
 ### Perfect For
 
@@ -31,6 +32,7 @@ MenuItem Copy & Paste enhances the WordPress menu editing interface by adding fi
 - Managing large numbers of menu items efficiently
 - Quickly reorganizing menu layouts
 - Editing menus without accordion interactions
+- Reorganizing large menus with many child items (collapse parents to focus on structure and drag siblings easily)
 
 ### Additional Features
 
@@ -40,6 +42,8 @@ MenuItem Copy & Paste enhances the WordPress menu editing interface by adding fi
 - Accurate position calculation considering hierarchical structure
 - Preserves all metadata (URL, classes, attributes, etc.)
 - Uses WordPress standard Dashicons
+- Collapse state persisted per-menu in `localStorage` (restored on page reload)
+- Auto-expand parent before drag to keep child items moving together
 
 ---
 
@@ -117,9 +121,25 @@ The current version copies individual menu items only. The Clone button duplicat
 
 Clear your browser cache. If they still don't appear, there may be a conflict with other plugins. Try temporarily disabling other plugins to identify the issue.
 
+### How does the Collapse feature work?
+
+Parent menu items that contain child items get a ▲/▼ toggle button on the right end of the button group. Click it to fold or unfold all descendants. The collapsed state is saved per-menu in your browser's `localStorage`, so it persists across page reloads. Items without children do not show the toggle button.
+
+### Will collapsed items break drag & drop?
+
+No. When you start dragging a collapsed parent, it auto-expands first so that its children move together with it. After the drag, the toggle button visibility is re-evaluated based on the new hierarchy.
+
 ---
 
 ## 📝 Changelog
+
+### 1.0.7 (2026-05-20)
+
+- ▲▼ Added **Collapse** feature: fold/unfold child menu items under any parent menu item
+- 💾 Collapse state is persisted per-menu in `localStorage` and restored on page reload
+- 🧲 Auto-expansion before drag to safely move parents with their descendants
+- 🎯 Toggle button auto-shows/hides based on whether the item has children
+- 📐 Adjusted button container width to accommodate the 6th button
 
 ### 1.0.6 (2025-11-04)
 

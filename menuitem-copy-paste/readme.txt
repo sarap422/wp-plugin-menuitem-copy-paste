@@ -4,7 +4,7 @@ Tags: menu, navigation, copy, paste, clone
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.6
+Stable tag: 1.0.7
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,7 @@ MenuItem Copy & Paste enhances the WordPress menu editing interface by adding fi
 * **🔗 Copy**: Copy menu item data to clipboard with visual highlight
 * **📋 Paste**: Paste copied items at the desired position
 * **🗑️ Delete**: Remove menu items without opening accordions
+* **▲▼ Collapse**: Fold/unfold child menu items under a parent (state saved in localStorage)
 
 = Perfect For =
 
@@ -78,6 +79,13 @@ Clear your browser cache. If they still don't appear, there may be a conflict wi
 
 == Changelog ==
 
+= 1.0.7 =
+* Added Collapse feature: fold/unfold child menu items under any parent menu item
+* Collapse state is persisted per-menu in localStorage and restored on page reload
+* Auto-expansion before drag to safely move parents with their descendants
+* Toggle button auto-shows/hides based on whether the item has children
+* Adjusted button container width to accommodate the 6th button
+
 = 1.0.6 =
 * Added New feature: instantly create custom links below items
 * Added Clone feature: duplicate menu items immediately below
@@ -96,6 +104,9 @@ Clear your browser cache. If they still don't appear, there may be a conflict wi
 * Menu item copy & paste functionality
 
 == Upgrade Notice ==
+
+= 1.0.7 =
+Added a collapse/fold feature for parent menu items. Manage large menus more efficiently by hiding child items under their parents. State persists across reloads.
 
 = 1.0.6 =
 New creation, cloning, and deletion features added. Menu editing is now even more efficient. Security and code quality improvements included.

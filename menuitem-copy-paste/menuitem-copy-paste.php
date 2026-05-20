@@ -2,8 +2,8 @@
 
 /**
  * Plugin Name: MenuItem Copy & Paste
- * Description: WordPressのメニュー編集画面で項目のコピー、ペースト、複製、削除を簡単に行えます
- * Version: 1.0.6
+ * Description: WordPressのメニュー編集画面で項目のコピー、ペースト、複製、削除、折りたたみを簡単に行えます
+ * Version: 1.0.7
  * Author: sarap422
  * Text Domain: menuitem-copy-paste
  * Requires PHP: 7.4
@@ -39,8 +39,8 @@ class Menuitem_Copy_Paste {
     wp_enqueue_script(
       'menuitem-copy-paste',
       plugins_url('js/menuitem-copy-paste.js', __FILE__),
-      array('jquery'),
-      '1.0.4',
+      array('jquery', 'jquery-ui-sortable'),
+      '1.0.7',
       true
     );
 
@@ -53,7 +53,7 @@ class Menuitem_Copy_Paste {
       'menuitem-copy-paste',
       plugins_url('css/menuitem-copy-paste.css', __FILE__),
       array(),
-      '1.0.4'
+      '1.0.7'
     );
   }
 
