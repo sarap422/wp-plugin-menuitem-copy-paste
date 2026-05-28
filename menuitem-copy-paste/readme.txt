@@ -4,11 +4,11 @@ Tags: menu, navigation, copy, paste, clone
 Requires at least: 5.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.0.7
+Stable tag: 1.1.0
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Easily copy, paste, clone, and delete menu items in the WordPress menu editor.
+Copy, paste, clone, delete & collapse menu items, duplicate & export/import whole menus (JSON), and use shortcodes in menu items.
 
 == Description ==
 
@@ -79,6 +79,12 @@ Clear your browser cache. If they still don't appear, there may be a conflict wi
 
 == Changelog ==
 
+= 1.1.0 =
+* Added Shortcode support: shortcodes now run in menu item URL, navigation label, and description (no extra metabox required; theme-defined shortcodes are executed)
+* Added Duplicate Menu: clone an entire menu (hierarchy preserved) from the editor, next to "Save Menu"; auto-named "{name}_copied"
+* Added per-menu JSON Export ("Export Menu" button, top-right of the menu editor)
+* Added JSON Import ("Import Menu" button): rebuilds a menu as a new menu; page/category items are re-resolved by slug on the target site, enabling cross-site migration of template menus
+
 = 1.0.7 =
 * Added Collapse feature: fold/unfold child menu items under any parent menu item
 * Collapse state is persisted per-menu in localStorage and restored on page reload
@@ -104,6 +110,9 @@ Clear your browser cache. If they still don't appear, there may be a conflict wi
 * Menu item copy & paste functionality
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Adds shortcode support in menu items, whole-menu duplication, and per-menu JSON export/import (with slug-based re-resolution for cross-site migration).
 
 = 1.0.7 =
 Added a collapse/fold feature for parent menu items. Manage large menus more efficiently by hiding child items under their parents. State persists across reloads.

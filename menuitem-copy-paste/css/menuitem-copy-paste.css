@@ -53,7 +53,7 @@
 
 /* .disabled */
 .menuitem-copy-paste-buttons .button-paste.is-disabled,
-	.menuitem-copy-paste-buttons .button-paste.is-disabled:hover {
+.menuitem-copy-paste-buttons .button-paste.is-disabled:hover {
 	cursor: not-allowed;
 	color: #72777c;
 	opacity: 0.5;
@@ -67,11 +67,29 @@
 }
 
 /* Visual indicator for a collapsed parent */
-.menu-item.menuitem-collapsed > .menu-item-bar .menu-item-handle {
+.menu-item.menuitem-collapsed>.menu-item-bar .menu-item-handle {
 	border-left: 3px solid #2271b1;
 }
 
 /* Toggle-collapse button: only visible when item has children (controlled via inline style by JS) */
 .menuitem-copy-paste-buttons .button-toggle-collapse:hover {
 	color: #2271b1;
+}
+
+/* === Menu Tools (Task 0528.1) === */
+.manage-menus:has(.menucoam-tools-top) {
+	display: flex;
+	justify-content: space-between;
+}
+
+/* 右上 Import/Export ボタン群 */
+.menucoam-tools-top {
+	float: right;
+	display: inline-flex;
+	gap: 6px;
+}
+
+/* 下部 メニュー複製ボタン */
+#menucoam-duplicate {
+	margin-left: 6px;
 }

@@ -1,4 +1,4 @@
-# MenuItem Copy & Paste v1.0.7
+# MenuItem Copy & Paste v1.1.0
 
 ![WordPress Plugin Version](https://img.shields.io/wordpress/plugin/v/menuitem-copy-paste?label=WordPress%20Plugin)
 ![WordPress Plugin: Tested WP Version](https://img.shields.io/wordpress/plugin/tested/menuitem-copy-paste)
@@ -9,7 +9,7 @@
 ![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)
 ![GitHub last commit](https://img.shields.io/github/last-commit/sarap422/wp-plugin-menuitem-copy-paste)
 
-Easily copy, paste, clone, delete, and collapse menu items in the WordPress menu editor.
+Copy, paste, clone, delete and collapse menu items, duplicate whole menus, export/import menus as JSON, and use shortcodes in menu items — all from the WordPress menu editor.
 
 **[📥 Download from WordPress.org](https://wordpress.org/plugins/menuitem-copy-paste/)** | **[📖 Documentation](https://github.com/sarap422/wp-plugin-menuitem-copy-paste/wiki)** | **[🐛 Report Issues](https://github.com/sarap422/wp-plugin-menuitem-copy-paste/issues)**
 
@@ -25,6 +25,13 @@ MenuItem Copy & Paste enhances the WordPress menu editing interface by adding si
 - **📋 Paste**: Paste copied items at the desired position
 - **🗑️ Delete**: Remove menu items without opening accordions
 - **▲▼ Collapse**: Fold/unfold child menu items under a parent (state saved in localStorage)
+
+### Menu-Level Tools (v1.1.0)
+
+- **🧬 Shortcode support**: Shortcodes run in a menu item's URL, navigation label, and description (theme-defined shortcodes are executed; no extra metabox needed)
+- **🗂️ Duplicate Menu**: Clone an entire menu (hierarchy preserved) from a button next to "Save Menu"; auto-named `{name}_copied`
+- **⬇️ Export Menu**: Export the selected menu to a JSON file (top-right "Export Menu")
+- **⬆️ Import Menu**: Rebuild a menu from JSON as a new menu (top-right "Import Menu"); page/category items are re-resolved by slug on the target site, so template menus migrate across sites
 
 ### Perfect For
 
@@ -132,6 +139,14 @@ No. When you start dragging a collapsed parent, it auto-expands first so that it
 ---
 
 ## 📝 Changelog
+
+### 1.1.0 (2026-05-28)
+
+- 🧬 Added **Shortcode** support: shortcodes run in menu item URL, navigation label, and description (no extra metabox; theme-defined shortcodes executed)
+- 🗂️ Added **Duplicate Menu**: clone an entire menu (hierarchy preserved) from the editor, next to "Save Menu"; auto-named `{name}_copied`
+- ⬇️ Added per-menu **JSON Export** ("Export Menu", top-right)
+- ⬆️ Added **JSON Import** ("Import Menu"): rebuilds a menu as new; page/category items re-resolved by slug on the target site for cross-site migration
+- 🏗️ Refactored into `includes/` (bootstrap + item-actions / shortcode / tools / builder classes)
 
 ### 1.0.7 (2026-05-20)
 
