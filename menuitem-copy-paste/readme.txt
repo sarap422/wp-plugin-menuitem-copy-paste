@@ -2,9 +2,9 @@
 Contributors: sarap422
 Tags: menu, navigation, copy, paste, clone
 Requires at least: 5.0
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ MenuItem Copy & Paste enhances the WordPress menu editing interface by adding fi
 
 = Which WordPress versions are supported? =
 
-WordPress 5.0 or higher. Tested up to the latest version (6.8).
+WordPress 5.0 or higher. Tested up to the latest version (7.0).
 
 = Can deleted items be restored? =
 
@@ -78,6 +78,11 @@ Clear your browser cache. If they still don't appear, there may be a conflict wi
 3. Confirmation dialog when deleting
 
 == Changelog ==
+
+= 1.1.1 =
+* Updated "Tested up to" to WordPress 7.0
+* Security/coding-standards: made AJAX nonce verification explicit in each handler (menu duplicate/export/import) so it is visible to static analysis
+* Documented JSON request handling for the paste and import endpoints (validated via json_decode and sanitized per-field)
 
 = 1.1.0 =
 * Added Shortcode support: shortcodes now run in menu item URL, navigation label, and description (no extra metabox required; theme-defined shortcodes are executed)
@@ -110,6 +115,9 @@ Clear your browser cache. If they still don't appear, there may be a conflict wi
 * Menu item copy & paste functionality
 
 == Upgrade Notice ==
+
+= 1.1.1 =
+Maintenance release: WordPress 7.0 compatibility header and coding-standards hardening of AJAX nonce checks. No functional changes.
 
 = 1.1.0 =
 Adds shortcode support in menu items, whole-menu duplication, and per-menu JSON export/import (with slug-based re-resolution for cross-site migration).

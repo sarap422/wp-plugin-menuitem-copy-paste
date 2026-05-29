@@ -3,7 +3,7 @@
 /**
  * Plugin Name: MenuItem Copy & Paste
  * Description: WordPressのメニュー編集画面で項目のコピー、ペースト、複製、削除、折りたたみ、メニュー自体の複製・JSONエクスポート/インポート、ショートコード対応を行えます
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: sarap422
  * Text Domain: menuitem-copy-paste
  * Requires PHP: 7.4
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
   exit;
 }
 
-define('MENUCOAM_VERSION', '1.1.0');
+define('MENUCOAM_VERSION', '1.1.1');
 define('MENUCOAM_PATH', plugin_dir_path(__FILE__));
 define('MENUCOAM_URL', untrailingslashit(plugins_url('', __FILE__)));
 

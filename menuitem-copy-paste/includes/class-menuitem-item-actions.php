@@ -123,7 +123,9 @@ class Menuitem_Copy_Paste {
     $menu_id = intval($_POST['menu_id']);
     $after_item_id = isset($_POST['after_item_id']) ? intval($_POST['after_item_id']) : 0;
 
-    // JSON文字列のバリデーション
+    // JSON文字列のバリデーション。sanitize_text_field 等は JSON を壊すため生のまま受け取り、
+    // 直後に is_string/長さ/json_decode で検証する（各値は wp_update_nav_menu_item 側で sanitize）。
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     $item_data_json = wp_unslash($_POST['item_data']);
 
     // 文字列型チェックと最大長チェック（10KB以内）

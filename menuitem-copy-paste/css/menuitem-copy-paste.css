@@ -79,14 +79,13 @@
 /* === Menu Tools (Task 0528.1) === */
 .manage-menus:has(.menucoam-tools-top) {
 	display: flex;
-	justify-content: space-between;
 }
 
 /* 右上 Import/Export ボタン群 */
 .menucoam-tools-top {
-	float: right;
 	display: inline-flex;
 	gap: 6px;
+	margin-left: auto;
 }
 
 /* 下部 メニュー複製ボタン */

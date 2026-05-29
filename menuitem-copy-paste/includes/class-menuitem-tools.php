@@ -54,21 +54,14 @@ class Menuitem_CP_Tools {
     ));
   }
 
-  /**
-   * 全AJAX共通の nonce + 権限チェック。失敗時は即終了。
-   */
-  private function verify() {
-    check_ajax_referer(self::NONCE_ACTION, 'nonce');
-    if (!current_user_can('edit_theme_options')) {
-      wp_send_json_error('権限がありません');
-    }
-  }
-
   // ============================================================
   // 機能2: メニュー複製
   // ============================================================
   public function ajax_duplicate_menu() {
-    $this->verify();
+    check_ajax_referer(self::NONCE_ACTION, 'nonce');
+    if (!current_user_can('edit_theme_options')) {
+      wp_send_json_error('権限がありません');
+    }
 
     $menu_id = isset($_POST['menu_id']) ? intval($_POST['menu_id']) : 0;
     $menu = wp_get_nav_menu_object($menu_id);
@@ -124,7 +117,10 @@ class Menuitem_CP_Tools {
   // 機能3: エクスポート
   // ============================================================
   public function ajax_export_menu() {
-    $this->verify();
+    check_ajax_referer(self::NONCE_ACTION, 'nonce');
+    if (!current_user_can('edit_theme_options')) {
+      wp_send_json_error('権限がありません');
+    }
 
     $menu_id = isset($_POST['menu_id']) ? intval($_POST['menu_id']) : 0;
     $menu = wp_get_nav_menu_object($menu_id);
@@ -184,8 +180,14 @@ class Menuitem_CP_Tools {
   // 機能4: インポート
   // ============================================================
   public function ajax_import_menu() {
-    $this->verify();
+    check_ajax_referer(self::NONCE_ACTION, 'nonce');
+    if (!current_user_can('edit_theme_options')) {
+      wp_send_json_error('権限がありません');
+    }
 
+    // JSON文字列を生のまま受け取る。sanitize_text_field 等を当てると JSON が壊れるため、
+    // 直後に is_string/長さ/json_decode で検証し、各フィールドは復号後に sanitize する。
+    // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     $raw = isset($_POST['data']) ? wp_unslash($_POST['data']) : '';
     if (!is_string($raw) || strlen($raw) > self::MAX_IMPORT_BYTES) {
       wp_send_json_error('データが無効です');
